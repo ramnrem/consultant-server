@@ -1,0 +1,74 @@
+#tags-list {
+	overflow-x: auto;
+	max-height: 400px;
+	max-width: 400px;
+	list-style-type: none;
+	padding: 0;
+}
+
+
+/* Список тегов */
+.rectangle-list input {
+	width:85%;
+	border: none;
+	cursor: default; 
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em .8em;
+    *padding: .4em;
+    margin: .2em 0 .2em 0;
+    background: #ddd;
+    color: #444;
+}
+
+.edittag input{
+	cursor: text !important; 
+}
+ 
+.del-btn {
+	height: 37px;
+	border: none;
+	background-color: #DC143C;
+	width: 37px;
+	margin-left: 5px;
+	color: #F08080;
+	transition: 0.5s;
+}
+
+.edit-btn {
+	height: 37px;
+	border: none;
+	background-color: #32CD32;
+	width: 37px;
+	margin-left: 5px;
+	color: #98FB98;
+	transition: 0.5s;
+}
+
+.edittag {
+	display: none;
+}
+
+.del-btn:hover,
+.edit-btn:hover {
+	color: #fff;
+}
+
+
+#chat {
+	height: 300px;
+	overflow-x: auto;
+}
+
+.help {
+	font-size: 13px;
+}
+
+#q_form {
+	margin-top: 30px;
+}
+
+.i2,
+.i3{
+	display: none;
+}

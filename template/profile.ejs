@@ -1,0 +1,86 @@
+<% layout('./layout/page') -%>
+<% block('title', 'Профиль'); -%>
+
+<h2 class="lead">Профиль пользователя <%=user.get('username')%> </h2>
+
+
+<div class="row">
+  <div class="col-lg-6 col-12">
+    <h3 class="lead">Ваши ключевые слова:</h3>
+    <ul id="tags-list" class="rectangle-list">
+      <% for(var i=0; i<_tags.length;i++) {%>
+          <li>
+            <form action="/deletetag" name="delete-tag" method="POST" class="form-inline deletetag">
+              <input type="text" name="tag" class="edit-tag" value="<%=_tags[i].get('title') %>" readonly>
+              <button type="submit" class="del-btn">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </button>
+            </form>
+          </li>
+      <%} %>
+    </ul>
+  </div>
+  <div class="col-lg-6 col-12">
+    <form class="form-horizontal tag-form" action="/profile" method="POST" name="tag-form">
+      <div class="form-group">
+        <label for="input-username" class="col-lg-12 control-label">Добавить ключевое слово</label>
+
+        <div class="col-lg-10">
+          <input name="tag" value="" type="text" class="form-control" id="input-username" placeholder="Введите ключевое слово" required="true">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+          <button type="submit" class="btn btn-primary">Добавить</button>
+          <span class="help-block error"></span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+    
+  $(document.forms['tag-form']).submit(function(event) {
+    var form = $(this);
+    event.preventDefault()
+    $.ajax({
+      url: "/profile",
+      data: form.serialize(),
+      method: "POST",
+      statusCode: {
+        200: function() {
+          window.location.href = "/profile";
+        },
+        403: function(jqXHR) {
+          var error = JSON.parse(jqXHR.responseText);
+          $('.error', form).html(error.message);
+        }
+      }
+    });
+  });
+
+  $('.deletetag').submit(function(event) {
+    var form = $(this);
+    event.preventDefault()
+    $.ajax({
+      url: "/deletetag",
+      data: form.serialize(),
+      method: "POST",
+      statusCode: {
+        200: function() {
+          window.location.href = "/profile";
+        },
+        403: function(jqXHR) {
+          var error = JSON.parse(jqXHR.responseText);
+          $('.error', form).html(error.message);
+        }
+      }
+    });
+  });
+
+
+</script>
+

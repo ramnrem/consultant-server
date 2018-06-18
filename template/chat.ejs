@@ -1,0 +1,93 @@
+<% layout('./layout/page') -%>
+<% block('title', "Чат") -%>
+
+<p> Доброе пожаловать, <%=user.get('username')%> !</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<div id="room">
+    <ul class="list-unstyled chat-window" id='chat'></ul>
+  <form>
+    <span class="help">Отвечайте на поступившие вопросы или консультируйтесь со всеми пользователями системы одновременно.</span>
+    <input required="true" disabled class="form-control" autocomplete="off" autofocus placeholder="Сообщение...">
+  </form>
+</div>
+
+<form id="q_form">
+  <span class="help">Задайте вопрос пользователям системы. Для того, чтобы на Ваш вопрос получили заинтересованные в теме вопроса пользователи, впишите в вопрос как можно больше ключевых слов, которые являются идентификаторами для поиска заинтересованных в вопросе пользователей.</span>
+  <input id="question" disabled class="form-control" autocomplete="off" autofocus placeholder="Задайте вопрос...">
+</form>
+
+<script>
+  var input = $('#room input');
+  var q_input = $('#question')
+  var ul = $('#room ul');
+  var form = $('#room form');
+  var q_form = $('#q_form');
+  var socket = io.connect('', {
+    reconnect: false
+  });
+  socket
+      .on('message', function(username, message) {
+        printMessage(username + ": " + message);
+      })
+      .on('leave', function(username) {
+        printStatus(username + " вышел из чата");
+      })
+      .on('join', function(username) {
+        printStatus(username + " вошёл в чат");
+      })
+      .on('connect', function() {
+        printStatus("соединение установлено");
+        form.on('submit', sendMessage);
+        q_form.on('submit', sendQuestion);
+        input.prop('disabled', false);
+        q_input.prop('disabled', false);
+      })
+      .on('disconnect', function() {
+        printStatus("соединение потеряно");
+        form.off('submit', sendMessage);
+        q_form.off('submit', sendQuestion);
+        input.prop('disabled', true);
+        q_input.prop('disabled', true);
+        this.$emit('error');
+      })
+      .on('logout', function() {
+        location.href = "/";
+      })
+      .on('error', function(reason) {
+        if (reason == "handshake unauthorized") {
+          printStatus("вы вышли из сайта");
+        } else {
+          setTimeout(function() {
+            socket.socket.connect();
+          }, 500);
+        }
+      });
+  function sendMessage() {
+    var text = input.val();
+    socket.emit('message', text, function() {
+      printMessage("Я: " + text);
+    });
+    input.val('');
+    return false;
+  }
+  function sendQuestion() {
+    var text = q_input.val();
+    socket.emit('question', text, function() {
+      printMessage("Я задал вопрос : " + text);
+    });
+    q_input.val('');
+    return false;
+  }
+  function printStatus(status) {
+    $('<li>').append($('<i>').text(status)).appendTo(ul);
+  }
+  function printMessage(text) {
+    $('<li>').text(text).appendTo(ul);
+  }
+</script>
+
+
+
+
