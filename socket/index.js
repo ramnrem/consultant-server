@@ -12,15 +12,11 @@ var cookieParser = require('cookie-parser');
 
 function loadSession(sid, callback) {
 
-  // sessionStore callback is not quite async-style!
   sessionStore.load(sid, function(err, session) {
     if (arguments.length == 0) {
-      // no arguments => no session
       return callback(null, null);
     } else {
       return callback(null, session);
-      //console.log(session);
-
     }
   });
 

@@ -5,9 +5,6 @@
 	list-style-type: none;
 	padding: 0;
 }
-
-
-/* Список тегов */
 .rectangle-list input {
 	width:85%;
 	border: none;
@@ -20,11 +17,9 @@
     background: #ddd;
     color: #444;
 }
-
 .edittag input{
 	cursor: text !important; 
 }
- 
 .del-btn {
 	height: 37px;
 	border: none;
@@ -34,7 +29,6 @@
 	color: #F08080;
 	transition: 0.5s;
 }
-
 .edit-btn {
 	height: 37px;
 	border: none;
@@ -44,31 +38,28 @@
 	color: #98FB98;
 	transition: 0.5s;
 }
-
 .edittag {
 	display: none;
 }
-
 .del-btn:hover,
 .edit-btn:hover {
 	color: #fff;
 }
-
-
 #chat {
 	height: 300px;
 	overflow-x: auto;
 }
-
 .help {
 	font-size: 13px;
 }
-
 #q_form {
 	margin-top: 30px;
 }
-
 .i2,
 .i3{
 	display: none;
+}
+
+.logo {
+	height: 100px;
 }
