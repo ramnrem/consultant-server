@@ -45,7 +45,6 @@ function loadUser(session, callback) {
 
 module.exports = function(server) {
   var io = require('socket.io').listen(server);
-  io.set('origins', 'localhost:*');
 
   io.set('authorization', function(handshake, callback) {
     async.waterfall([
