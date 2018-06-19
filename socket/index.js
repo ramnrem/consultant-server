@@ -144,7 +144,6 @@ module.exports = function(server) {
     socket.on('question', function(text, cb) {
 
       chats = [];
-      console.log(chats[0])
       let q_text = text;
       let punctuationless = q_text.replace(/[.,\/#!$?%\^&\*;:{}=\-_`~()]/g,"");
       let finalString = punctuationless.replace(/\s{2,}/g," ");
@@ -191,6 +190,7 @@ module.exports = function(server) {
         for(let i = 0; i< chats.length; i++){
           socket.broadcast.to(chats[i]).emit('message', username, text);
         }
+        chats = [];
       } else socket.broadcast.emit('message', username, text);
       cb && cb();
     });
